@@ -30,37 +30,37 @@ class MpersKnapsackGoals():
     def __init__(self):
         # Goals
         self.respondToEmergencyGoal = Knapsack(
-            Decomposition.AND, "respondToEmergencyGoal", False)
+            Decomposition.AND, "respondToEmergencyGoal")
         self.emergencyIsDetectedGoal = Knapsack(
-            Decomposition.OR, "emergencyIsDetectedGoal", False)
+            Decomposition.OR, "emergencyIsDetectedGoal")
         self.centralReceivesInfoGoal = Knapsack(
-            Decomposition.AND, "centralReceivesInfoGoal", False)
+            Decomposition.AND, "centralReceivesInfoGoal")
         self.locationIsIdentifiedGoal = Knapsack(
-            Decomposition.OR, "locationIsIdentifiedGoal", True)
+            Decomposition.OR, "locationIsIdentifiedGoal")
         self.infoIsPreparedGoal = Knapsack(
-            Decomposition.OR, "infoIsPreparedGoal", False)
+            Decomposition.OR, "infoIsPreparedGoal")
         self.isNotifiedAboutEmergencyGoal = Knapsack(
-            Decomposition.OR, "isNotifiedAboutEmergencyGoal", True)
+            Decomposition.OR, "isNotifiedAboutEmergencyGoal")
         self.callForHelpIsAcceptedGoal = Knapsack(
-            Decomposition.AND, "callForHelpIsAcceptedGoal", False)
+            Decomposition.AND, "callForHelpIsAcceptedGoal")
         self.falseAlarmIsCheckedGoal = Knapsack(
-            Decomposition.OR, "falseAlarmIsCheckedGoal", True)
+            Decomposition.OR, "falseAlarmIsCheckedGoal")
         self.receivesEmergencyButtonCallGoal = Knapsack(
-            Decomposition.OR, "receivesEmergencyButtonCallGoal", True)
+            Decomposition.OR, "receivesEmergencyButtonCallGoal")
         self.situationsAreIdentifiedGoal = Knapsack(
-            Decomposition.AND, "situationsAreIdentifiedGoal", True)
+            Decomposition.AND, "situationsAreIdentifiedGoal")
         self.infoIsSentToEmergencyGoal = Knapsack(
-            Decomposition.OR, "infoIsSentToEmergencyGoal", True)
+            Decomposition.OR, "infoIsSentToEmergencyGoal")
         self.setupAutomatedInfoGoal = Knapsack(
-            Decomposition.AND, "setupAutomatedInfoGoal", False)
+            Decomposition.AND, "setupAutomatedInfoGoal")
         self.situationDataIsRecoveredGoal = Knapsack(
-            Decomposition.AND, "situationDataIsRecoveredGoal", True)
+            Decomposition.AND, "situationDataIsRecoveredGoal")
         self.contactResponsibleGoal = Knapsack(
-            Decomposition.AND, "contactResponsibleGoal", True)
+            Decomposition.AND, "contactResponsibleGoal")
         self.medicalCareReachesGoal = Knapsack(
-            Decomposition.AND, "medicalCareReachesGoal", True)
+            Decomposition.AND, "medicalCareReachesGoal")
         self.ambulanceIsDispatchedToLocationGoal = Knapsack(
-            Decomposition.AND, "ambulanceIsDispatchedToLocationGoal", True)
+            Decomposition.AND, "ambulanceIsDispatchedToLocationGoal")
 
 
 class MpersKnapsackTasks():
@@ -378,5 +378,5 @@ class MpersKnapsackModel():
         self.tasks.ambulanceDispatchDelegationTask.setProvidedQuality(
             None, MpersMetrics.SECONDS, 30)
 
-        self.rootGoal = Knapsack(Decomposition.AND, "rootGoal", False)
+        self.rootGoal = Knapsack(Decomposition.AND, "rootGoal")
         self.rootGoal = self.goals.respondToEmergencyGoal

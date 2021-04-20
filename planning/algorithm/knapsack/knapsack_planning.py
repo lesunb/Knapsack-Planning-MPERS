@@ -90,7 +90,7 @@ class KnapsackPlanning:
                     return None
                 
                 if plan:
-                    goal.mergeKnapsack(plan)
+                    goal.mergeKnapsack(plan, plan.interp)
                     
             if goal.task:
                 if goal.parentNode.decomposition is Decomposition.OR:

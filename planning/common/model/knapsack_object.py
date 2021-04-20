@@ -16,7 +16,6 @@ class KnapsackObject(Task):
 
     return value
 
-
   def getWeight(self, context):
     qc = 0
 

@@ -50,7 +50,7 @@ def test_EmergencyIsDetectedGoal(mpers):
 
 
 
-def infoIsPreparedGoal(mpers):
+def test_infoIsPreparedGoal(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c3, mpers.contexts.c4, mpers.contexts.c8]
                 
     plan = KnapsackPlanning().isAchievablePlan(mpers.goals.infoIsPreparedGoal, fullContext, None)
