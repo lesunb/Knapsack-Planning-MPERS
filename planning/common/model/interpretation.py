@@ -30,7 +30,7 @@ class Interpretation():
                     allQCs.extend(constrains)
 
         # Adding baseline
-        elif None in self.contextDependentInterpretation:
+        if None in self.contextDependentInterpretation:
             baselineConstrains = self.contextDependentInterpretation.get(None)
             allQCs.extend(baselineConstrains)
 

@@ -60,7 +60,7 @@ def test_infoIsPreparedGoal(mpers):
         [mpers.tasks.accessLocationFromGPSTask, mpers.tasks.accessDataFromDatabaseTask])
 
 
-def centralReceivesInfoGoal(mpers):
+def test_centralReceivesInfoGoal(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c3, mpers.contexts.c4, mpers.contexts.c8]
                 
     plan = KnapsackPlanning().isAchievablePlan(mpers.goals.centralReceivesInfoGoal, fullContext, None)

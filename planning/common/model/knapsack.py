@@ -14,7 +14,7 @@ class Knapsack(Goal):
         self.weight = []
         self.group = []
         self.solution = []
-    
+
     def mergeKnapsack(self, newKnapsack, interp):
         self.task.extend(newKnapsack.task)
         self.value.extend(newKnapsack.value)

@@ -365,7 +365,7 @@ class MpersKnapsackModel():
         self.tasks.accessLocationFromGPSTask.setProvidedQuality(
             self.contexts.c11, MpersMetrics.DISTANCE_ERROR, 30)
         self.tasks.accessLocationFromGPSTask.setProvidedQuality(
-            None, MpersMetrics.SECONDS, 50)
+            None, MpersMetrics.SECONDS, 45)
 
         self.tasks.accessDataFromDatabaseTask.setProvidedQuality(
             None, MpersMetrics.SECONDS, 20)

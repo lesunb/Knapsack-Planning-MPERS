@@ -34,6 +34,7 @@ class KnapsackPlanning:
 
     # Recursive function to choose plan
     def isAchievable(self, goal, current, interp):
+        plan = None
         # Check if Goal is achievable for current context
         if not self.isApplicable(goal, current):
             return None
@@ -55,7 +56,7 @@ class KnapsackPlanning:
             if goal.parentNode.decomposition is Decomposition.AND:
                 if goal.task:
                     if goal.parentNode.parentNode is None:
-                        plan = self.createKnapsackTable(interp, goal)
+                        plan = self.createKnapsackTable(interp, goal, current)
 
                         if plan:
                             return plan
@@ -69,6 +70,9 @@ class KnapsackPlanning:
                         if dep.maxValue > maxValue:
                             maxValue = dep.maxValue
                             maxTask = dep
+                    
+                    goal.maxValue = maxValue
+                    goal.solution = maxTask.solution
 
                 return maxTask.solution
 
@@ -76,7 +80,6 @@ class KnapsackPlanning:
         else:
             # else decomposition is AND return achievables plans list from dependencies list
             for dep in dependencies:
-                plan = None
                 complete = None
                 if(dep.myType() is Refinement().GOAL):
                     newInterp = self.mergeInterp(goal, interp)
@@ -86,18 +89,29 @@ class KnapsackPlanning:
                         value = dep.getValue(current)
                         weight = dep.getWeight(current)
                         goal.setItem(dep, value, weight, goal.identifier)
+                        plan = None
                 else:
                     return None
                 
                 if plan:
-                    goal.mergeKnapsack(plan, plan.interp)
+                    if type(plan).__name__ == 'Goal' and plan.interp.getQualityConstraints:
+                        complete = self.createKnapsackTable(plan.interp, plan, current)
+                        for item in complete.tasks:     
+                            value = item.getValue(current)
+                            weight = item.getWeight(current)                   
+                            goal.setItem(item, value, weight, item.parentNode.identifier)
+
+                    if type(plan).__name__ == 'Plan':
+                        for item in plan.tasks:     
+                            value = item.getValue(current)
+                            weight = item.getWeight(current)                   
+                            goal.setItem(item, value, weight, item.parentNode.identifier)
+                    else:
+                        goal.mergeKnapsack(plan, plan.interp)
                     
             if goal.task:
-                if goal.parentNode.decomposition is Decomposition.OR:
-                    complete = self.createKnapsackTable(interp, goal)
-                if goal.parentNode.decomposition is Decomposition.AND:
-                    complete = goal
-                    
+                complete = self.createKnapsackTable(interp, goal, current)
+
             return complete
 
     def mergeInterp(self, goal, interp):
@@ -107,8 +121,25 @@ class KnapsackPlanning:
 
         return newInterp    
 
+    def getMetrics(self, interp, current):
+        currentQcs = interp.getQualityConstraints(current)
+        capacity = 0
+        metrics = []
+        # get the qualities constraints from curent active context
+        for qc in currentQcs:
+            if qc.metric not in metrics:
+                capacity = capacity + qc.value
+                metrics.append(qc.metric)
+        # get the qualities constraints from baseline
+        if interp.getQualityConstraints([None]):
+            for qc in interp.getQualityConstraints([None]):
+                if qc.metric not in metrics:
+                    capacity = capacity + qc.value
+                    metrics.append(qc.metric)
+        
+        return capacity
     
-    def createKnapsackTable(self, interp, goal):
+    def createKnapsackTable(self, interp, goal, current):
         task = goal.task
         value = goal.value
         weight = goal.weight
@@ -116,6 +147,9 @@ class KnapsackPlanning:
         group = []
         N = len(value)
         g = 0
+
+        if N == 1:
+            return Plan(task[0])
 
         for i in range(N):
             if i == 0:
@@ -125,12 +159,14 @@ class KnapsackPlanning:
             else:
                 g = g+1
                 group.append(g)
-
-        for index in interp.contextDependentInterpretation:
-            capacity = interp.contextDependentInterpretation[index][0].value
-
-            if g > 0:
-                capacity = capacity * g+1
+        
+        capacity = self.getMetrics(interp, current)
+        
+        if g > 0:
+            capacity = capacity * (g+1)
+        if capacity == 0:
+            capacity = 1
+            
 
         K = [[0 for x in range(N)] for x in range(capacity)]
         solution = [[None for x in range(N)] for x in range(capacity)]
