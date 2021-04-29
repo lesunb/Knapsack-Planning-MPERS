@@ -22,6 +22,21 @@ def mpers():
 
     return mpers
 
+
+def test_MPERS_model(mpers):
+    fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c3, mpers.contexts.c4, mpers.contexts.c8]
+    plan = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
+
+    assert True is assertPlan(
+        plan, [mpers.tasks.notifyCentralByInternetTask , 
+        mpers.tasks.confirmEmergencyByCallTask,
+        mpers.tasks.notifyByMobileVibrationTask,
+        mpers.tasks.sendInfoByInternetTask,
+        mpers.tasks.accessLocationFromGPSTask,
+        mpers.tasks.accessDataFromDatabaseTask,
+        mpers.tasks.ambulanceDispatchDelegationTask,
+        ])
+
 def test_IsNotifiedAboutEmergencyGoal(mpers):
     fullContext = [mpers.contexts.c1,
                 mpers.contexts.c2,
