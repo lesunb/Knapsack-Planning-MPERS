@@ -79,18 +79,11 @@ def test_C2(mpers):
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
     
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
-
+    plan = ["acceptEmergency","notifyBySoundAlert"]
     assert tasks is not None
 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "acceptEmergency":
-            found = 1
-        if task.identifier == "notifyBySoundAlert":
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in plan
 
 
 def test_C3(mpers):
@@ -102,12 +95,7 @@ def test_C3(mpers):
     assert tasks is not None
 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "acceptEmergency":
-            found = 1
-
-        assert found == 0
+       assert task.identifier != "acceptEmergency"
 
 
 def test_C4(mpers):
@@ -115,49 +103,22 @@ def test_C4(mpers):
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
-
+    plan = ["notifyCentralBySMS","confirmEmergencyByCall","notifyBySoundAlert","sendInfoBySMS","identifyLocationByVoiceCall","accessLocationFromTriangulation"]
     assert tasks is not None
 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyCentralBySMS":
-            found = 1
-        if task.identifier == "confirmEmergencyByCall":
-            found = 1
-        if task.identifier == "notifyBySoundAlert":
-            found = 1
-        if task.identifier == "sendInfoBySMS":
-            found = 1
-        if task.identifier == "identifyLocationByVoiceCall":
-            found = 1
-        if task.identifier == "accessLocationFromTriangulation":
-            found = 1
-
-        assert found == 0
-
+         assert task.identifier not in plan
 
 def test_C5(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c5,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
-
+    plan = ["notifyCentralBySMS","confirmEmergencyByCall","sendInfoBySMS","notifyBySoundAlertv"]
     assert tasks is not None
 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyCentralBySMS":
-            found = 1
-        if task.identifier == "notifyBySoundAlert":
-            found = 1
-        if task.identifier == "sendInfoBySMS":
-            found = 1
-        if task.identifier == "confirmEmergencyByCall":
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in plan
 
 
 def test_C6(mpers):
@@ -166,48 +127,24 @@ def test_C6(mpers):
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
 
+    plan = ["notifyCentralBySMS","confirmEmergencyByCall","sendInfoBySMS"]
+
     assert tasks is not None
 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyCentralBySMS":
-            found = 1
-        if task.identifier == "sendInfoBySMS":
-            found = 1
-        if task.identifier == "confirmEmergencyByCall":
-            found = 1
-
-        assert found == 0
-
+        assert task.identifier not in plan
 
 def test_C7(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c6,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
-
+    plan = ["notifyCentralBySMS","confirmEmergencyByCall","notifyBySoundAlert","sendInfoBySMS","identifyLocationByVoiceCall","accessLocationFromTriangulation"]
+    
     assert tasks is not None
-
+ 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyCentralBySMS":
-            found = 1
-        if task.identifier == "confirmEmergencyByCall":
-            found = 1
-        if task.identifier == "notifyBySoundAlert":
-            found = 1
-        if task.identifier == "sendInfoBySMS":
-            found = 1
-        if task.identifier == "identifyLocationByVoiceCall":
-            found = 1
-        if task.identifier == "accessLocationFromTriangulation":
-            found = 1
-        if task.identifier == "accessLocationFromGPS":
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in plan
 
 
 def test_C8(mpers):
@@ -216,25 +153,12 @@ def test_C8(mpers):
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
 
+    plan = ["notifyCentralBySMS","confirmEmergencyByCall","notifyBySoundAlert","sendInfoBySMS","identifyLocationByVoiceCall","accessLocationFromTriangulation"]
+     
     assert tasks is not None
 
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyCentralBySMS":
-            found = 1
-        if task.identifier == "confirmEmergencyByCall":
-            found = 1
-        if task.identifier == "notifyBySoundAlert":
-            found = 1
-        if task.identifier == "sendInfoBySMS":
-            found = 1
-        if task.identifier == "identifyLocationByVoiceCall":
-            found = 1
-        if task.identifier == "accessLocationFromTriangulation":
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in plan
 
 
 def test_C9(mpers):
@@ -243,17 +167,11 @@ def test_C9(mpers):
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
 
+    plan = ["notifyByLightAlert", "acceptEmergency"]
     assert tasks is not None
-
+    
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyByLightAlert":
-            found = 1
-        if task.identifier == "acceptsEmergency":
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in plan
 
 
 
@@ -262,17 +180,10 @@ def test_C10(mpers):
                    mpers.contexts.c6, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
 
     tasks = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
-
+    plan = ["notifyByLightAlert", "acceptEmergency"]
     assert tasks is not None
     for task in tasks.getTasks():
-        found = 0
-
-        if task.identifier == "notifyByLightAlert":
-            found = 1
-        if task.identifier == "acceptEmergency":
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in plan
 
 
 def test_None(mpers):

@@ -91,25 +91,16 @@ def test_contextSet1_not_found(mpers):
 
     assert plan is not None
 
+    tasks = [mpers.tasks.notifyCentralBySMSTask,
+            mpers.tasks.notifyBySoundAlertTask,
+            mpers.tasks.identifyLocationByVoiceCallTask,
+            mpers.tasks.accessLocationFromTriangulationTask,
+            mpers.tasks.accessLocationFromGPSTask,
+            mpers.tasks.considerLastKnownLocationTask,
+            mpers.tasks.acceptEmergencyTask]
+    
     for task in plan.getTasks():
-        found = 0
-        if task is mpers.tasks.acceptEmergencyTask:
-            found = 1
-        if task.identifier is mpers.tasks.notifyCentralBySMSTask:
-            found = 1
-        if task.identifier is mpers.tasks.notifyBySoundAlertTask:
-            found = 1
-        if task.identifier is mpers.tasks.identifyLocationByVoiceCallTask:
-            found = 1
-        if task.identifier is mpers.tasks.accessLocationFromTriangulationTask:
-            found = 1
-        if task.identifier is mpers.tasks.accessLocationFromGPSTask:
-            found = 1
-        if task.identifier is mpers.tasks.considerLastKnownLocationTask:
-            found = 1
-
-        assert found == 0
-
+        assert task.identifier not in tasks
 
 def test_ContextSet2(mpers):
     fullContext = [mpers.contexts.c9,
@@ -144,26 +135,17 @@ def test_contextSet3_not_found(mpers):
 
     assert plan is not None
 
+    tasks = [mpers.tasks.confirmEmergencyByCallTask,
+            mpers.tasks.notifyCentralBySMSTask,
+            mpers.tasks.getInfoFromResponsibleTask,
+            mpers.tasks.notifyBySoundAlertTask,
+            mpers.tasks.notifyByLightAlertTask,
+            mpers.tasks.notifyByMobileVibrationTask,
+            mpers.tasks.sendInfoBySMSTask]
+    
     for task in plan.getTasks():
-        found = 0
-        # if task is mpers.tasks.acceptEmergencyTask:
-        #     found = 1
-        if task.identifier is mpers.tasks.confirmEmergencyByCallTask:
-            found = 1
-        if task.identifier is mpers.tasks.notifyCentralBySMSTask:
-            found = 1
-        if task.identifier is mpers.tasks.getInfoFromResponsibleTask:
-            found = 1
-        if task.identifier is mpers.tasks.notifyBySoundAlertTask:
-            found = 1
-        if task.identifier is mpers.tasks.notifyByLightAlertTask:
-            found = 1
-        if task.identifier is mpers.tasks.notifyByMobileVibrationTask:
-            found = 1
-        if task.identifier is mpers.tasks.sendInfoBySMSTask:
-            found = 1
+        assert task.identifier not in tasks
 
-        assert found == 0
 
 
 def test_ContextSet4(mpers):
@@ -197,13 +179,9 @@ def test_contextSet4_not_found(mpers):
 
     assert plan is not None
 
+    tasks = [mpers.tasks.acceptEmergencyTask,
+            mpers.tasks.centralCallTask,
+            mpers.tasks.accessLocationFromGPSTask]
+    
     for task in plan.getTasks():
-        found = 0
-        if task.identifier is mpers.tasks.acceptEmergencyTask:
-            found = 1
-        if task.identifier is mpers.tasks.centralCallTask:
-            found = 1
-        if task.identifier is mpers.tasks.accessLocationFromGPSTask:
-            found = 1
-
-        assert found == 0
+        assert task.identifier not in tasks
