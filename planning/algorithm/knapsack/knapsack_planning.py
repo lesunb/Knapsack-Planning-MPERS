@@ -139,6 +139,7 @@ class KnapsackPlanning:
         
         return capacity
     
+    #Knapsack table stores the Max simulated values ​​of the quality obtained from the choice of task
     def createKnapsackTable(self, interp, goal, current):
         task = goal.task
         value = goal.value
@@ -170,7 +171,7 @@ class KnapsackPlanning:
 
         K = [[0 for x in range(N)] for x in range(capacity)]
         solution = [[None for x in range(N)] for x in range(capacity)]
-
+        #scrolls the table choosing the highest quality task
         for n in range(0, N):
             for w in range(1, capacity+1):
                 option1 = self.getMax(group[n]-1, K[n], group, n)
@@ -191,7 +192,7 @@ class KnapsackPlanning:
         goal.solution = take
 
         return take
-
+    # Return the highest quality task by group
     def getMax(self, group, row, groups, n):
         max = 0
 
@@ -217,7 +218,7 @@ class KnapsackPlanning:
                     lastTakenGroup = group[n]
         
         return solution, maxValue
-
+    # Runs through the table searching for the max value
     def calculateIsMax(self, n, w, groups, matrix,  N):
         group = groups[n]
         max = 0
