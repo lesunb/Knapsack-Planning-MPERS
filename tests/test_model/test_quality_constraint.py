@@ -59,13 +59,13 @@ def test_shouldGetCorrectContexts():
     Context("C1") is qc.getApplicableContext()
 
 
-def shouldAbideByQcIfMetricIsNotAffected():
+def test_shouldAbideByQcIfMetricIsNotAffected():
     qc = QualityConstraint(
         Context("C1"), CommonMetrics.SECONDS, 15, Comparison.LESS_THAN)
     assert True is qc.abidesByQC(15, CommonMetrics.METERS)
 
 
-def shouldCorrectlyCompareMetrics():
+def test_shouldCorrectlyCompareMetrics():
     qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
                            Comparison.LESS_THAN)
     assert True is qc.abidesByQC(14, CommonMetrics.SECONDS)
@@ -81,38 +81,6 @@ def shouldCorrectlyCompareMetrics():
     qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
                            Comparison.EQUAL_TO)
     assert True is qc.abidesByQC(15, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.GREATER_OR_EQUAL_TO)
-    assert True is qc.abidesByQC(15, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.GREATER_OR_EQUAL_TO)
-    assert True is qc.abidesByQC(16, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.GREATER_THAN)
-    assert True is qc.abidesByQC(16, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.LESS_THAN)
-    assert False is qc.abidesByQC(16, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.LESS_OR_EQUAL_TO)
-    assert False is qc.abidesByQC(16, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.EQUAL_TO)
-    assert False is qc.abidesByQC(16, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.GREATER_OR_EQUAL_TO)
-    assert False is qc.abidesByQC(14, CommonMetrics.SECONDS)
-
-    qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
-                           Comparison.GREATER_THAN)
-    assert False is qc.abidesByQC(14, CommonMetrics.SECONDS)
 
 
 def test_shouldComplainAboutDifferentMetrics():

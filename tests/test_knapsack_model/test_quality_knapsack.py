@@ -31,7 +31,7 @@ def test_shouldProvideCorrectValueForMetric():
     assert 30 == task.myProvidedQuality(MpersMetrics.METERS, fullContext)
 
 
-def text_shouldProvideMetricForBaseline():
+def test_shouldProvideMetricForBaseline():
     task = KnapsackObject("t1")
 
     current = Context("C1")
@@ -43,7 +43,20 @@ def text_shouldProvideMetricForBaseline():
     assert 30.0 ==task.myProvidedQuality(MpersMetrics.METERS, fullContext)
 
 
-def metricNotFound():
+def test_metricNotFound():
+    task = KnapsackObject("T1")
+    currentContext = Context("C1")
+    fullContext = []
+
+    fullContext.append(currentContext)
+
+    task.setProvidedQuality(currentContext, MpersMetrics.METERS, 30.0)
+
+    result = task.myProvidedQuality(MpersMetrics.SECONDS, fullContext)
+    assert result is None
+
+
+def test_metricNotFound():
     task = KnapsackObject("T1")
     currentContext = Context("C1")
     fullContext = []
