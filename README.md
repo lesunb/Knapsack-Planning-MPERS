@@ -3,7 +3,7 @@ Knapsack Planning
 
 Env Depencies
 -------------
-python 3, pip
+python 3, pip, pytest
 
 Used IDE: vscode, plugin python
 
