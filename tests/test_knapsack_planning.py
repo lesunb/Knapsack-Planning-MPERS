@@ -201,8 +201,8 @@ def test_c10(mpers):
         assert task.identifier not in plan
 
 
-def test_None(mpers):
-    fullcontext = []
-    tasks = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, fullcontext, None)
+#def test_None(mpers):
+#    fullcontext = []
+#    tasks = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, fullcontext, None)
 
-    assert tasks is None        
+#    assert tasks is None        
