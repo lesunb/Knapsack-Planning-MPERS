@@ -1,8 +1,3 @@
-[![Build Status](https://travis-ci.org/lesunb/Knapsack-Planning-MPERS.svg?branch=master)](https://travis-ci.org/lesunb/Knapsack-Planning-MPERS)
-[![codecov](https://codecov.io/gh/lesunb/Knapsack-Planning-MPERS/branch/master/graph/badge.svg)](https://codecov.io/gh/lesunb/Knapsack-Planning-MPERS)
-
-
-
 Knapsack Planning
 =============
 
