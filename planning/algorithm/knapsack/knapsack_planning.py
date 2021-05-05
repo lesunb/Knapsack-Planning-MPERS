@@ -52,31 +52,31 @@ class KnapsackPlanning:
                         value = dep.getValue(current)
                         weight = dep.getWeight(current)
                         goal.setItem(dep, value, weight, goal.identifier)
+            if dependencies:
+                if goal.parentNode.decomposition is Decomposition.AND:
+                    if goal.task:
+                        if goal.parentNode.parentNode is None:
+                            plan = self.createKnapsackTable(interp, goal, current)
 
-            if goal.parentNode.decomposition is Decomposition.AND:
-                if goal.task:
-                    if goal.parentNode.parentNode is None:
-                        plan = self.createKnapsackTable(interp, goal, current)
+                            if plan:
+                                return plan
 
-                        if plan:
-                            return plan
-
+                        else:
+                            return goal
                     else:
-                        return goal
-                else:
-                    maxTask = None
-                    maxValue = 0
-                    for dep in goal.dependencies:
-                        if dep.maxValue > maxValue:
-                            maxValue = dep.maxValue
-                            maxTask = dep
-                    
-                    goal.maxValue = maxValue
-                    goal.solution = maxTask.solution
+                        maxTask = None
+                        maxValue = 0
+                        for dep in goal.dependencies:
+                            if dep.maxValue > maxValue:
+                                maxValue = dep.maxValue
+                                maxTask = dep
+                        
+                        goal.maxValue = maxValue
+                        goal.solution = maxTask.solution
 
-                return maxTask.solution
+                    return maxTask.solution
 
-            return None
+                return None
         else:
             # else decomposition is AND return achievables plans list from dependencies list
             for dep in dependencies:
@@ -108,11 +108,12 @@ class KnapsackPlanning:
                             goal.setItem(item, value, weight, item.parentNode.identifier)
                     else:
                         goal.mergeKnapsack(plan, plan.interp)
-                    
-            if goal.task:
-                complete = self.createKnapsackTable(interp, goal, current)
+            
+            if dependencies:        
+                if goal.task:
+                    complete = self.createKnapsackTable(interp, goal, current)
 
-            return complete
+                return complete
 
     def mergeInterp(self, goal, interp):
         newInterp = Interpretation()
