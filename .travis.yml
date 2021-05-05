@@ -20,11 +20,11 @@ install:
   - pipenv install --dev
 
 script:
-  - pytest -v --cov=goald .
+  - pytest -v --cov=planning  .
 
 after_success:
   - pyenv shell
   - codecov
   - pip install codacy-coverage
   - python-codacy-coverage -r coverage.xml
-  - py.test --cov-report=xml --cov=goald tests/
+  - py.test --cov-report=xml --cov=planning  tests/
