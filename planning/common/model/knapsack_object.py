@@ -1,4 +1,5 @@
 from planning.common.model.task import Task
+from planning.common.model.metric_type import MetricType
 
 
 class KnapsackObject(Task):
@@ -25,6 +26,19 @@ class KnapsackObject(Task):
 
         if myQC is not None:
             qc = qc + myQC
+
+    return qc
+
+  def getWeightRestriction(self, context):
+    qc = 0
+
+    # get the qualities constraints from curent active context
+    for metric in self.providedQualityLevels.keys():
+        if metric.getType() is MetricType.RESTRICTION:
+            myQC = self.myProvidedQuality(metric, context)
+
+            if myQC is not None:
+                qc = qc + myQC
 
     return qc
 
