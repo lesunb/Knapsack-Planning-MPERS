@@ -11,6 +11,9 @@ class Refinement():
         self.identifier = identifier
         self.parentNode = None
 
+    def __repr__(self):
+        return "<Refinement identifier: %s provided quality: %s refinement: %s" % (self.identifier, self.applicableContext, Refinement.__str__) 
+
     def addNonapplicableContext(self, context):
         self.nonapplicableContexts.append(context)
 

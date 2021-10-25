@@ -1,10 +1,13 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+**/__pycache__/
+**/tests/__pycache__/
 *.py[cod]
 *$py.class
 
 # C extensions
 *.so
+
+find . -name "*.pyc" -exec git rm -f "{}" \;
 
 # Distribution / packaging
 .Python
@@ -54,6 +57,8 @@ cover/
 # Translations
 *.mo
 *.pot
+
+**.pyc
 
 # Django stuff:
 *.log
@@ -137,3 +142,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+/.idea

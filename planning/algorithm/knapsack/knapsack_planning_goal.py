@@ -4,6 +4,7 @@ from planning.common.model.decomposition import Decomposition
 from planning.common.exceptions.metric_not_found import MetricNotFoundException
 from planning.common.model.interpretation import Interpretation
 from planning.common.model.metric_type import MetricType
+import logging
 
 class KnapsackPlanningGoal():
     
@@ -53,6 +54,10 @@ class KnapsackPlanningGoal():
                         value = dep.getValue(current)
                         weight = dep.getWeightRestriction(current)
                         goal.setItem(dep, value, weight, goal.identifier)
+                        print("Identificador: ", goal.identifier)
+                        print("dependencia: ", weight)
+                        print("Valor: ", value)
+                        print("Identificador: ", dep.providedQualityLevels)
                         
             if goal.task:
                 plan = self.createKnapsackTable(interp, goal, current)
@@ -60,7 +65,7 @@ class KnapsackPlanningGoal():
                 if plan:
                     return plan
             else:
-                return NoneZ
+                return None
         else:
             # else decomposition is AND return achievables plans list from dependencies list
             for dep in dependencies:
@@ -127,6 +132,7 @@ class KnapsackPlanningGoal():
     
     #Knapsack table stores the Max simulated values ​​of the quality obtained from the choice of task
     def createKnapsackTable(self, interp, goal, current):
+        logging.info('Creating knp Table')
         task = goal.task
         value = goal.value
         weight = goal.weight

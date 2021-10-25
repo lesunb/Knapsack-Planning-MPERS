@@ -1,16 +1,19 @@
 from planning.common.model.task import Task
 from planning.common.model.metric_type import MetricType
+import logging
 
 
 class KnapsackObject(Task):
   def __init__(self, task):
+    self.log = logging.getLogger(__name__)
+    self.log.info("Knapsack object started")
     Task.__init__(self, task)
 
   def getValue(self, context):
-    weight = self.getWeight(context)
-    if weight > 0:
-        value = 1/weight
-    elif weight == 0:
+    restrictionValue = self.getWeight(context)
+    if restrictionValue > 0:
+        value = 1/restrictionValue
+    elif restrictionValue == 0:
         value =  1
     else:
         value =  0
@@ -48,8 +51,8 @@ class KnapsackObject(Task):
     initQuality = False
     # Check if the metric was already in Provided Qualities
     if metric not in self.providedQualityLevels.keys():
-        message = "Metric: {0} not found".format(metric.name)
-        print(message)
+        #message = "Metric: {0} not found".format(metric.name)
+        #print(message)
         return None
     # get metric
     metricQL = self.providedQualityLevels[metric]

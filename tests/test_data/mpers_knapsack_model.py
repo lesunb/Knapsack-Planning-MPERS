@@ -25,6 +25,37 @@ class MpersKnapsackContexts():
     c11 = Context("c11")
     c12 = Context("c12")
 
+class MpersKnapsackTasks():
+    def __init__(self):
+
+        # Tasks
+        self.notifyCentralBySMSTask = KnapsackObject("notifyCentralBySMSTask")
+        self.notifyCentralByInternetTask = KnapsackObject("notifyCentralByInternetTask")
+        self.acceptEmergencyTask = KnapsackObject("acceptEmergencyTask")
+        self.confirmEmergencyByCallTask = KnapsackObject("confirmEmergencyByCallTask")
+        self.processDataFromSensorsTask = KnapsackObject("processDataFromSensorsTask")
+        self.identifySituationTask = KnapsackObject("identifySituationTask")
+        self.collectDataFromSensorsTask = KnapsackObject("collectDataFromSensorsTask")
+        self.persistDataToDatabaseTask = KnapsackObject("persistDataToDatabaseTask")
+        self.notifyByMobileVibrationTask = KnapsackObject("notifyByMobileVibrationTask")
+        self.notifyBySoundAlertTask = KnapsackObject("notifyBySoundAlertTask")
+        self.notifyByLightAlertTask = KnapsackObject("notifyByLightAlertTask")
+        self.centralCallTask = KnapsackObject("centralCallsPTask")
+        self.sendInfoBySMSTask = KnapsackObject("sendInfoBySMSTask")
+        self.sendInfoByInternetTask = KnapsackObject("sendInfoByInternetTask")
+        self.considerLastKnownLocationTask = KnapsackObject(
+            "considerLastKnownLocationTask")
+        self.identifyLocationByVoiceCallTask = KnapsackObject(
+            "identifyLocationByVoiceCallTask")
+        self.accessLocationFromTriangulationTask = KnapsackObject(
+            "accessLocationFromTriangulationTask")
+        self.accessLocationFromGPSTask = KnapsackObject("accessLocationFromGPSTask")
+        self.accessDataFromDatabaseTask = KnapsackObject("accessDataFromDatabaseTask")
+        self.getInfoFromResponsibleTask = KnapsackObject("getInfoFromResponsibleTask")
+        self.ambulanceDispatchDelegationTask = KnapsackObject(
+            "ambulanceDispatchDelegationTask")
+
+
 class MpersKnapsackGoals():
 
     def __init__(self):
@@ -63,40 +94,8 @@ class MpersKnapsackGoals():
             Decomposition.AND, "ambulanceIsDispatchedToLocationGoal")
 
 
-class MpersKnapsackTasks():
-    def __init__(self):
-
-        # Tasks
-        self.notifyCentralBySMSTask = KnapsackObject("notifyCentralBySMSTask")
-        self.notifyCentralByInternetTask = KnapsackObject("notifyCentralByInternetTask")
-        self.acceptEmergencyTask = KnapsackObject("acceptEmergencyTask")
-        self.confirmEmergencyByCallTask = KnapsackObject("confirmEmergencyByCallTask")
-        self.processDataFromSensorsTask = KnapsackObject("processDataFromSensorsTask")
-        self.identifySituationTask = KnapsackObject("identifySituationTask")
-        self.collectDataFromSensorsTask = KnapsackObject("collectDataFromSensorsTask")
-        self.persistDataToDatabaseTask = KnapsackObject("persistDataToDatabaseTask")
-        self.notifyByMobileVibrationTask = KnapsackObject("notifyByMobileVibrationTask")
-        self.notifyBySoundAlertTask = KnapsackObject("notifyBySoundAlertTask")
-        self.notifyByLightAlertTask = KnapsackObject("notifyByLightAlertTask")
-        self.centralCallTask = KnapsackObject("centralCallsPTask")
-        self.sendInfoBySMSTask = KnapsackObject("sendInfoBySMSTask")
-        self.sendInfoByInternetTask = KnapsackObject("sendInfoByInternetTask")
-        self.considerLastKnownLocationTask = KnapsackObject(
-            "considerLastKnownLocationTask")
-        self.identifyLocationByVoiceCallTask = KnapsackObject(
-            "identifyLocationByVoiceCallTask")
-        self.accessLocationFromTriangulationTask = KnapsackObject(
-            "accessLocationFromTriangulationTask")
-        self.accessLocationFromGPSTask = KnapsackObject("accessLocationFromGPSTask")
-        self.accessDataFromDatabaseTask = KnapsackObject("accessDataFromDatabaseTask")
-        self.getInfoFromResponsibleTask = KnapsackObject("getInfoFromResponsibleTask")
-        self.ambulanceDispatchDelegationTask = KnapsackObject(
-            "ambulanceDispatchDelegationTask")
-
-
-
 class MpersKnapsackModel():
-
+ 
     contexts = MpersKnapsackContexts()
 
     def __init__(self):
@@ -378,5 +377,5 @@ class MpersKnapsackModel():
         self.tasks.ambulanceDispatchDelegationTask.setProvidedQuality(
             None, MpersMetrics.SECONDS, 30)
 
-        self.rootGoal = Knapsack(Decomposition.AND, "rootGoal")
+        self.rootGoal = Goal(Decomposition.AND, "rootGoal")
         self.rootGoal = self.goals.respondToEmergencyGoal

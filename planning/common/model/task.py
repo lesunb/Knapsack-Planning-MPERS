@@ -9,6 +9,9 @@ class Task(Refinement):
         self.providedQualityLevels = {}
         self.identifier = identifier
 
+    def __repr__(self):
+        return "<Task identifier: %s provided quality: %s refinement: %s" % (self.identifier, self.providedQualityLevels, Refinement.__str__) 
+
     def myType(self):
         return Refinement().TASK
 

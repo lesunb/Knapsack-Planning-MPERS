@@ -13,6 +13,11 @@ from planning.common.model.knapsack import Knapsack
 from tests.utils.assert_util import assertPlan
 from planning.algorithm.knapsack.knapsack_planning import KnapsackPlanning
 import pytest
+import datetime
+import logging
+from tests.test_data.mpers_model import MpersModel
+from planning.utils.arrange_generator import ArrangeGenerator
+from planning.utils.context_generator import ContextGenerator
 
 @pytest.fixture
 def mpers():
@@ -21,9 +26,14 @@ def mpers():
     return mpers
 
 def test_MPERS_model(mpers):
-    fullcontext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c3, mpers.contexts.c4, mpers.contexts.c8]
+    start_time = datetime.datetime.now()
+    
+    fullcontext = [mpers.contexts.c1, 
+    mpers.contexts.c2, mpers.contexts.c3, 
+    mpers.contexts.c4, mpers.contexts.c8]
     plan = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, fullcontext, None)
-
+    end_time = datetime.datetime.now()
+    print(end_time - start_time)
     assert True is assertPlan(
         plan, [mpers.tasks.notifyCentralByInternetTask , 
         mpers.tasks.confirmEmergencyByCallTask,
@@ -58,7 +68,8 @@ def test_EmergencyIsDetectedGoal(mpers):
 
     assert assertPlan(
         plan,
-        [mpers.tasks.notifyCentralByInternetTask, mpers.tasks.confirmEmergencyByCallTask])
+        [mpers.tasks.notifyCentralByInternetTask, 
+        mpers.tasks.confirmEmergencyByCallTask])
 
 
 
@@ -69,7 +80,8 @@ def test_infoIsPreparedGoal(mpers):
 
     assert assertPlan(
         plan,
-        [mpers.tasks.accessLocationFromGPSTask, mpers.tasks.accessDataFromDatabaseTask])
+        [mpers.tasks.accessLocationFromGPSTask, 
+        mpers.tasks.accessDataFromDatabaseTask])
 
 
 def test_centralReceivesInfoGoal(mpers):
@@ -79,7 +91,9 @@ def test_centralReceivesInfoGoal(mpers):
 
     assert assertPlan(
         plan,
-        [mpers.tasks.sendInfoByInternetTask, mpers.tasks.accessLocationFromGPSTask, mpers.tasks.accessDataFromDatabaseTask])
+        [mpers.tasks.sendInfoByInternetTask, 
+        mpers.tasks.accessLocationFromGPSTask, 
+        mpers.tasks.accessDataFromDatabaseTask])
 
 
 def test_C1(mpers):
@@ -222,3 +236,53 @@ def test_C10(mpers):
 
 #    assert tasks is None        
 
+def test_C8(mpers):
+
+    logging.info('Init planning')
+    fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c5,
+                   mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
+
+    tasks = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, fullContext, None)
+    logging.info('Task executed')
+    plan = ["notifyCentralBySMS","confirmEmergencyByCall","notifyBySoundAlert","sendInfoBySMS","identifyLocationByVoiceCall","accessLocationFromTriangulation"]
+    logging.debug('a debug messag is not shown') 
+    logging.info('assert')
+    assert tasks is not None
+
+    for task in tasks.getTasks():
+        assert task.identifier not in plan
+
+def test_fullContext(mpers):
+    fullContext_knp = [mpers.contexts.c1,
+                mpers.contexts.c2,
+                mpers.contexts.c3,
+                mpers.contexts.c4,
+                mpers.contexts.c5,
+                mpers.contexts.c6,
+                mpers.contexts.c7,
+                mpers.contexts.c8,
+                mpers.contexts.c9,
+                mpers.contexts.c10]
+
+
+
+    generatorKnp = ContextGenerator(fullContext_knp)
+    generatorIterKpn = iter(generatorKnp)
+
+    lastContext = None
+    numberOfContexts = 0
+    diferenca = 0
+
+    for contextKnp in generatorIterKpn:
+        plan_knp = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, contextKnp, None)
+        #set_knp = set(plan_knp)
+        #set_prgm = set(plan_pragma)
+        #dif = set_knp - set_prgm
+        #print("diferença entre os planos: ", dif)
+        #diferenca += 1
+        #registrar o diff e criar um print/log dessa diff com contador
+        lastContextPrgm = fullContext_knp
+        numberOfContexts = numberOfContexts + 1
+
+    assert lastContextPrgm == contextKnp
+    assert numberOfContexts == 1024

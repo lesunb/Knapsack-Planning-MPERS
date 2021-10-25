@@ -2,7 +2,8 @@ from planning.common.model.refinement import Refinement
 from planning.common.model.plan import Plan
 from planning.common.model.decomposition import Decomposition
 from planning.common.exceptions.metric_not_found import MetricNotFoundException
-
+import datetime
+import logging
 
 class PragmaticPlanning:
     
@@ -28,9 +29,12 @@ class PragmaticPlanning:
 
     # If is a pragmatic goal merge the interpretations
     def isAchievablePlan(self, goal, current, interp):
-        if type(goal).__name__ == 'Pragmatic':
+        start_time = datetime.datetime.now()
+        if type(goal).__name__ == 'Pragmatic':            
             return goal.isAchievable(current, interp)
         else:
+            end_time = datetime.datetime.now()
+            print(f"Time to check is achievable: ",end_time - start_time)            
             return self.isAchievable(goal, current, interp)
 
     # Recursive function to choose plan
@@ -116,8 +120,8 @@ class PragmaticPlanning:
         initQuality = False
         # Check if the metric was already in Provided Qualities
         if metric not in task.providedQualityLevels.keys():
-            message = "Metric: {0} not found".format(metric.name)
-            print(message)
+            #message = "Metric: {0} not found".format(metric.name)
+            #print(message)
             return None
         # get metric
         metricQL = task.providedQualityLevels[metric]

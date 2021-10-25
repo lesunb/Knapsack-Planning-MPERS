@@ -7,7 +7,7 @@ from tests.test_data.mpers_metric import MpersMetrics
 from tests.test_data.mpers_knapsack_model import MpersKnapsackModel
 from planning.common.model.knapsack import Knapsack
 from planning.algorithm.knapsack.knapsack_planning import KnapsackPlanning
-
+import logging
 import pytest
 
 

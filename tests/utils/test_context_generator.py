@@ -20,8 +20,9 @@ def test_arrange_for():
 
     for context in generatorIter:
         lastContext = context
+        print(context)
         numberOfContexts = numberOfContexts + 1
-
+    
     assert lastContext == [1, 1]
     assert numberOfContexts == 4
 

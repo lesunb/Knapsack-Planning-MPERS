@@ -3,7 +3,7 @@ from planning.common.model.plan import Plan
 from planning.common.model.decomposition import Decomposition
 from planning.common.exceptions.metric_not_found import MetricNotFoundException
 from planning.common.model.interpretation import Interpretation
-
+import logging
 
 class KnapsackPlanning:
     
@@ -49,9 +49,9 @@ class KnapsackPlanning:
                     self.isAchievable(dep, current, newInterp)
                 elif(dep.myType() is Refinement().TASK):
                     if self.isAchievableTask(dep, current, interp):
-                        value = dep.getValue(current)
-                        weight = dep.getWeight(current)
-                        goal.setItem(dep, value, weight, goal.identifier)
+                        otimizationValue = dep.getValue(current)
+                        restrictionValue = dep.getWeight(current)
+                        goal.setItem(dep, otimizationValue, restrictionValue, goal.identifier)
             if dependencies:
                 if goal.parentNode.decomposition is Decomposition.AND:
                     if goal.task:
@@ -86,9 +86,9 @@ class KnapsackPlanning:
                     plan = self.isAchievable(dep, current, newInterp)
                 elif(dep.myType() is Refinement().TASK):
                     if self.isAchievableTask(dep, current, interp):
-                        value = dep.getValue(current)
-                        weight = dep.getWeight(current)
-                        goal.setItem(dep, value, weight, goal.identifier)
+                        otimizationValue = dep.getValue(current)
+                        restrictionValue = dep.getWeight(current)
+                        goal.setItem(dep, otimizationValue, restrictionValue, goal.identifier)
                         plan = None
                 else:
                     return None
@@ -97,15 +97,15 @@ class KnapsackPlanning:
                     if type(plan).__name__ == 'Goal' and plan.interp.getQualityConstraints:
                         complete = self.createKnapsackTable(plan.interp, plan, current)
                         for item in complete.tasks:     
-                            value = item.getValue(current)
-                            weight = item.getWeight(current)                   
-                            goal.setItem(item, value, weight, item.parentNode.identifier)
+                            otimizationValue = item.getValue(current)
+                            restrictionValue = item.getWeight(current)                   
+                            goal.setItem(item, otimizationValue, restrictionValue, item.parentNode.identifier)
 
                     if type(plan).__name__ == 'Plan':
                         for item in plan.tasks:     
-                            value = item.getValue(current)
-                            weight = item.getWeight(current)                   
-                            goal.setItem(item, value, weight, item.parentNode.identifier)
+                            otimizationValue = item.getValue(current)
+                            restrictionValue = item.getWeight(current)                   
+                            goal.setItem(item, otimizationValue, restrictionValue, item.parentNode.identifier)
                     else:
                         goal.mergeKnapsack(plan, plan.interp)
             
@@ -116,6 +116,8 @@ class KnapsackPlanning:
                 return complete
 
     def mergeInterp(self, goal, interp):
+        print("Goal: ", goal)
+        print("Interp: ", interp)
         newInterp = Interpretation()
         newInterp.merge(goal.interp)
         newInterp.merge(interp)
@@ -124,30 +126,31 @@ class KnapsackPlanning:
 
     def getMetrics(self, interp, current):
         currentQcs = interp.getQualityConstraints(current)
-        capacity = 0
+        restrictionValue = 0
         metrics = []
         # get the qualities constraints from curent active context
         for qc in currentQcs:
             if qc.metric not in metrics:
-                capacity = capacity + qc.value
+                restrictionValue = restrictionValue + qc.value
                 metrics.append(qc.metric)
         # get the qualities constraints from baseline
         if interp.getQualityConstraints([None]):
             for qc in interp.getQualityConstraints([None]):
                 if qc.metric not in metrics:
-                    capacity = capacity + qc.value
+                    restrictionValue = restrictionValue + qc.value
                     metrics.append(qc.metric)
         
-        return capacity
+        return restrictionValue
     
     #Knapsack table stores the Max simulated values ​​of the quality obtained from the choice of task
     def createKnapsackTable(self, interp, goal, current):
+        logging.info('Creating Table')
         task = goal.task
-        value = goal.value
-        weight = goal.weight
+        otimizationValue = goal.value
+        restrictionValue = goal.weight
         groupName = goal.group
         group = []
-        N = len(value)
+        N = len(otimizationValue)
         g = 0
 
         if N == 1:
@@ -162,32 +165,32 @@ class KnapsackPlanning:
                 g = g+1
                 group.append(g)
         
-        capacity = self.getMetrics(interp, current)
+        restrictionMetric = self.getMetrics(interp, current)
         
         if g > 0:
-            capacity = capacity * (g+1)
-        if capacity == 0:
-            capacity = 1
+            restrictionMetric = restrictionMetric * (g+1)
+        if restrictionMetric == 0:
+            restrictionMetric = 1
             
 
-        K = [[0 for x in range(N)] for x in range(capacity)]
-        solution = [[None for x in range(N)] for x in range(capacity)]
+        K = [[0 for x in range(N)] for x in range(restrictionMetric)]
+        solution = [[None for x in range(N)] for x in range(restrictionMetric)]
         #scrolls the table choosing the highest quality task
         for n in range(0, N):
-            for w in range(1, capacity+1):
+            for w in range(1, restrictionMetric+1):
                 option1 = self.getMax(group[n]-1, K[n], group, n)
                 option2 = 0
                 option3 = self.getMax(group[n], K[n], group, n)
 
-                if weight[n] <= w:
-                    option2 = value[n] + self.getMax(group[n] - 1, K[(w-1) - weight[n]], group, n)
+                if restrictionValue[n] <= w:
+                    option2 = otimizationValue[n] + self.getMax(group[n] - 1, K[(w-1) - restrictionValue[n]], group, n)
 
                 K[w-1][n] = max(option1, option2)
 
                 if (option2 > option1) and (option2 > option3):
                     solution[w-1][n] = task[n]
 
-        take, maxValue = self.getSolution(N, capacity, solution, group, K, weight)
+        take, maxValue = self.getSolution(N, restrictionMetric, solution, group, K, restrictionValue)
 
         goal.maxValue = maxValue
         goal.solution = take
@@ -205,6 +208,7 @@ class KnapsackPlanning:
         return max
 
     def getSolution(self, N, W, sol, group, matrix, weight):
+        logging.info('Solution')
         solution = Plan()
         lastTakenGroup = -1
         
