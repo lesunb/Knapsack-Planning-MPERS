@@ -7,8 +7,6 @@
 # C extensions
 *.so
 
-find . -name "*.pyc" -exec git rm -f "{}" \;
-
 # Distribution / packaging
 .Python
 build/
