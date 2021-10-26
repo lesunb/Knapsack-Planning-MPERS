@@ -274,7 +274,7 @@ def test_fullContext(mpers):
     diferenca = 0
 
     for contextKnp in generatorIterKpn:
-        plan_knp = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, contextKnp, None)
+        #plan_knp = KnapsackPlanning().isAchievablePlan(mpers.rootGoal, contextKnp, None)
         #set_knp = set(plan_knp)
         #set_prgm = set(plan_pragma)
         #dif = set_knp - set_prgm

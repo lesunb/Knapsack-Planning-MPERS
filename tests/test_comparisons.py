@@ -95,7 +95,7 @@ def test_MPERS_model(mpers):
         ])
 
 
-def test_fullcontext_gen(mpers_knp):
+def test_fullcontext_gen(mpers_knp,mpers):
     fullContext_knp = [mpers_knp.contexts.c1,
                 mpers_knp.contexts.c2,
                 mpers_knp.contexts.c3,
@@ -107,7 +107,18 @@ def test_fullcontext_gen(mpers_knp):
                 mpers_knp.contexts.c9,
                 mpers_knp.contexts.c10]
 
-    generatorKnp = ContextGenerator(fullContext_knp)
+    fullContext_prgm = [mpers.contexts.c1,
+                mpers.contexts.c2,
+                mpers.contexts.c3,
+                mpers.contexts.c4,
+                mpers.contexts.c5,
+                mpers.contexts.c6,
+                mpers.contexts.c7,
+                mpers.contexts.c8,
+                mpers.contexts.c9,
+                mpers.contexts.c10]            
+
+    generatorKnp = ContextGenerator(fullContext_prgm)
     generatorIterKpn = iter(generatorKnp)
 
     lastContext = None
@@ -115,8 +126,8 @@ def test_fullcontext_gen(mpers_knp):
     diferenca = 0
 
     for contextKnp in generatorIterKpn:
-        #plan_knp = KnapsackPlanning().isAchievablePlan(mpers_knp.rootGoal, contextKnp, None)
-        plan_knp = KnapsackPlanning().isAchievablePlan(mpers_knp.rootGoal, fullContext_knp, None)
+        plan_pragma = PragmaticPlanning().isAchievablePlan(mpers.rootGoal, contextKnp, None)
+        #plan_knp = KnapsackPlanning().isAchievablePlan(mpers_knp.rootGoal, fullContext_knp, None)
         #set_knp = set(plan_knp)
         #set_prgm = set(plan_pragma)
         #dif = set_knp - set_prgm
@@ -126,5 +137,5 @@ def test_fullcontext_gen(mpers_knp):
         lastContextPrgm = contextKnp
         numberOfContexts = numberOfContexts + 1
 
-    assert lastContextPrgm == fullContext_knp
+    assert lastContextPrgm == fullContext_prgm
     assert numberOfContexts == 1024
